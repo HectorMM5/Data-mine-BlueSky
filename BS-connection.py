@@ -12,3 +12,12 @@ data = client.app.bsky.feed.get_feed({
 })
 
 print(data["feed"][0]["post"]["like_count"])
+print(data["feed"][1]["post"]["like_count"])
+print(data["feed"][2]["post"]["like_count"])
+print(data["feed"][3]["post"]["like_count"])
+print(data["feed"][4]["post"]["like_count"])
+
+
+def getFeed(feedURL, limit):
+    
+
