@@ -1,8 +1,14 @@
 from atproto import Client
+from credentials import BLUESKY_USERNAME, BLUESKY_PASSWORD
 
 client = Client()
-# By default, it uses the server of bsky.app. To change this behavior, pass the base api URL to constructor
-# Client('https://example.com')
+client.login(BLUESKY_USERNAME, BLUESKY_PASSWORD)
 
-def getFeed(feedName, postAmount, sorting):
-    
+bluesky_did = client.get_profile(actor="bsky.app")["did"]
+
+data = client.app.bsky.feed.get_feed({
+    'feed': 'at://' + bluesky_did + '/app.bsky.feed.generator/whats-hot',
+    'limit': 5,
+})
+
+print(data["feed"][0]["post"]["like_count"])
