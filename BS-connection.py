@@ -27,8 +27,8 @@ def transformFeedURL(url):
 
 def getFeed(uri, limit):
     content = client.app.bsky.feed.get_feed({
-        'feed': 'at://' + owner_did + '/app.bsky.feed.generator/' + last_part,
-        'limit': 5,
+        'feed': uri,
+        'limit': limit
     })
     
 
