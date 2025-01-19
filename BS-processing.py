@@ -1,11 +1,11 @@
 from atproto import Client
 from credentials import BLUESKY_USERNAME, BLUESKY_PASSWORD
 from playwright.sync_api import sync_playwright
+import Posts
 
-client = Client()
-client.login(BLUESKY_USERNAME, BLUESKY_PASSWORD)
-
-bluesky_did = client.get_profile(actor="bsky.app")["did"]
+def init():
+    client = Client()
+    client.login(BLUESKY_USERNAME, BLUESKY_PASSWORD)
 
 def transformFeedURL(url):
     with sync_playwright() as p:
@@ -26,28 +26,26 @@ def transformFeedURL(url):
         return uri
 
 def getFeed(uri, limit):
-    content = client.app.bsky.feed.get_feed({
-        'feed': uri,
-        'limit': limit
-    })
+    try:
+        content = client.app.bsky.feed.get_feed({
+            'feed': uri,
+            'limit': limit
+        })
 
-    return content
+        return content
+      
+    except Exception as e:  
+        print(f"Error: The URI was invalid.")
 
-def getFeedPosts(feed):
-    posts = []
+        return None 
+
+
+def bskyGetPosts(url, limit=50):
+    uri = transformFeedURL(url)
+    feed = getFeed(uri, limit)
+
+    posts = []    
     for post in feed["feed"]:
-        posts.append(post["post"])
+        posts.append(Posts.PostObject(post["author"], post["text"], post["embed"], post["like_count"], post["repost_count"], post["reply_count"]))
 
     return posts
-
-
-
-
-uri = transformFeedURL("https://bsky.app/profile/bossett.social/feed/for-science")
-
-feed = getFeed(uri, 2)
-
-posts = getFeedPosts(feed)
-
-displayPost(posts[0])
-displayPost(posts[1])
