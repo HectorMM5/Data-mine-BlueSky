@@ -39,3 +39,17 @@ def getFeedPosts(feed):
         posts.append(post["post"])
 
     return posts
+
+
+def displayPost(post):
+    print(post["record"]["text"])
+
+
+uri = transformFeedURL("https://bsky.app/profile/bossett.social/feed/for-science")
+
+feed = getFeed(uri, 2)
+
+posts = getFeedPosts(feed)
+
+displayPost(posts[0])
+displayPost(posts[1])
