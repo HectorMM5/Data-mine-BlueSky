@@ -19,9 +19,9 @@ def transformFeedURL(url):
 
         owner_username = element.text_content().strip()[2:-1]
         owner_did = client.get_profile(actor=(owner_username))["did"]
-        last_part = url.split("/")[-1]
+        feed_id = url.split("/")[-1]
 
-        uri = 'at://' + owner_did + '/app.bsky.feed.generator/' + last_part
+        uri = 'at://' + owner_did + '/app.bsky.feed.generator/' + feed_id
 
         return uri
 
@@ -30,6 +30,12 @@ def getFeed(uri, limit):
         'feed': uri,
         'limit': limit
     })
-    
 
-getFeed("https://bsky.app/profile/bsky.app/feed/whats-hot")
+    return content
+
+def getFeedPosts(feed):
+    posts = []
+    for post in feed["feed"]:
+        posts.append(post["post"])
+
+    return posts
