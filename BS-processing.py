@@ -3,9 +3,8 @@ from credentials import BLUESKY_USERNAME, BLUESKY_PASSWORD
 from playwright.sync_api import sync_playwright
 import Posts
 
-def init():
-    client = Client()
-    client.login(BLUESKY_USERNAME, BLUESKY_PASSWORD)
+client = Client()
+client.login(BLUESKY_USERNAME, BLUESKY_PASSWORD)
 
 def transformFeedURL(url):
     with sync_playwright() as p:
@@ -46,6 +45,15 @@ def bskyGetPosts(url, limit=50):
 
     posts = []    
     for post in feed["feed"]:
-        posts.append(Posts.PostObject(post["author"], post["text"], post["embed"], post["like_count"], post["repost_count"], post["reply_count"]))
+
+        post = post["post"]
+
+        
+        posts.append(Posts.PostObject(post["author"], post["record"]["text"], post["embed"], post["like_count"], post["repost_count"], post["reply_count"]))
 
     return posts
+
+
+
+for post in bskyGetPosts("https://bsky.app/profile/bossett.social/feed/for-science"):
+    print(post.text)
