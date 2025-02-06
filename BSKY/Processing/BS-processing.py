@@ -1,7 +1,7 @@
 from atproto import Client
-from credentials import BLUESKY_USERNAME, BLUESKY_PASSWORD
+from BSKY.Processing.credentials import BLUESKY_USERNAME, BLUESKY_PASSWORD
 from playwright.sync_api import sync_playwright
-import Posts
+import BSKY.Functionality.Posts as Posts
 
 client = Client()
 client.login(BLUESKY_USERNAME, BLUESKY_PASSWORD)

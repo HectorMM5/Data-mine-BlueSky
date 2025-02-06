@@ -1,6 +1,6 @@
 from typing import List, Dic
-import Posts
-import scores
+import BSKY.Functionality.Posts as Posts
+import BSKY.Functionality.Scores as Scores
 import re
 
 def filterContainsWord(posts: List[Posts.PostObject], wordsFilter: str):
@@ -18,9 +18,9 @@ def filterContainsWord(posts: List[Posts.PostObject], wordsFilter: str):
 
     if word:
         wordsList.append(word)
-
     filteredFeed: List = []
-
+    
+    
     for post in posts:
         if all(word in post.text for word in wordsList):
             filteredFeed.append(post)
@@ -30,7 +30,7 @@ def filterContainsWord(posts: List[Posts.PostObject], wordsFilter: str):
 
 
 def sortEngagement(posts: List[Posts.PostObject]):
-    sorted_posts = sorted(posts, key=scores.engagement_score, reverse=True)
+    sorted_posts = sorted(posts, key=Scores.engagement_score, reverse=True)
 
     return sorted_posts
 
